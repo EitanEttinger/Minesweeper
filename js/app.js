@@ -155,7 +155,7 @@ function renderBoard() {
       else if (currCell.minesAroundCount === 0) cellClass += ' emptyCell'
       else if (currCell.minesAroundCount > 0) cellClass += ' negCell'
 
-      strHTML += `\t<td class="cell ${cellClass}" onclick="onCellClicked(this, ${i}, ${j})" oncontextmenu="onCellMarked(this, ${i}, ${j})">`
+      strHTML += `\t<td class="cell ${cellClass}" onclick="onCellClicked(this, ${i}, ${j})" oncontextmenu="onCellMarked(event, this, ${i}, ${j})">`
 
       strHTML += '\t</td>\n'
     }
@@ -195,9 +195,7 @@ function renderCell(i, j) {
 function onCellClicked(elCell, i, j) {
   var currCell = gBoard[i][j]
 
-  if (!gGame.isOn) return
-  if (currCell.isShown) return
-  if (currCell.isMarked) return
+  if (!gGame.isOn || currCell.isShown || currCell.isMarked) return
 
   gGame.moveCount++
   gGame.shownCount++
@@ -222,11 +220,12 @@ function onCellClicked(elCell, i, j) {
 }
 
 // onCellMarked
-function onCellMarked(elCell, i, j) {
+function onCellMarked(e, elCell, i, j) {
+  e.preventDefault()
+
   var currCell = gBoard[i][j]
 
-  if (!gGame.isOn) return
-  if (currCell.isShown) return
+  if (!gGame.isOn || currCell.isShown) return
 
   gGame.moveCount++
 
@@ -264,9 +263,10 @@ function expandShown(elCell, locationI, locationJ) {
 
       var currCell = gBoard[i][j]
 
-      if (currCell.isShown === false) gGame.shownCount++
-
-      currCell.isShown = true
+      if (currCell.isShown === false && currCell.isMarked === false) {
+        gGame.shownCount++
+        currCell.isShown = true
+      }
 
       renderCell(i, j)
     }
@@ -275,7 +275,10 @@ function expandShown(elCell, locationI, locationJ) {
 
 // checkGameOver
 function checkGameOver(elCell, i, j) {
-  if (gGame.minesMarkedCount + gGame.shownCount === gLevel.SIZE ** 2) {
+  if (
+    gGame.minesMarkedCount + gGame.shownCount === gLevel.SIZE ** 2 &&
+    gGame.markedCount === gGame.minesMarkedCount
+  ) {
     console.log(`Victory`)
     gGame.isOn = false
   } else if (elCell.classList.contains(`exploded`)) {
