@@ -29,10 +29,6 @@ function onInit() {
 
   // Run
   buildBoard()
-
-  // update                                            // update move to onCellClicked moveCount 1
-  placeMines(2, 2)
-  setMinesNegsCount()
   renderBoard()
 }
 
@@ -57,46 +53,23 @@ function buildBoard() {
   }
 }
 
-// var gGame = {
-//   isOn: true,
-//   moveCount: 0,
-//   shownCount: 0,
-//   markedCount: 0,
-//   minesMarkedCount: 0,
-//   secsPassed: 0,
-// }
-
-// gBoard[i][j] = {
-//   minesAroundCount: 0,
-//   isShown: false,
-//   isMine: false,
-//   isMarked: false,
-//   locationI: i,
-//   locationJ: j,
-// }
-
 // getEmptyPos
 function getEmptyPos(locationI, locationJ) {
   const emptyPos = []
 
   for (var i = 0; i < gBoard.length; i++) {
     for (var j = 0; j < gBoard[i].length; j++) {
-      if (gBoard[i][j].isMine)
-        continue // add ((i === locationI && j === locationJ))
-      else {
-        emptyPos.push({ i, j })
-      }
+      if (gBoard[i][j].isMine || (i === locationI && j === locationJ)) continue
+
+      emptyPos.push({ i, j })
     }
   }
   var randIdx = getRandomInt(0, emptyPos.length)
   var randPos = emptyPos[randIdx]
 
   return gBoard[randPos.i][randPos.j]
-
-  // need to get curr i and j to not put it in
 }
 
-// placeMines                                           // update first clicking
 function placeMines(locationI, locationJ) {
   const amount = gLevel.MINES
   gMines = []
@@ -188,10 +161,10 @@ function onCellClicked(elCell, i, j) {
   gGame.moveCount++
   gGame.shownCount++
 
-  // check gGame.moveCount === 1 for put the mines
-  // if (gGame.moveCount === 1) {
-
-  // }
+  if (gGame.moveCount === 1) {
+    placeMines(i, j)
+    setMinesNegsCount()
+  }
 
   currCell.isShown = true
 
