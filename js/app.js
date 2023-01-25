@@ -82,17 +82,15 @@ function getEmptyPos(locationI, locationJ) {
   for (var i = 0; i < gBoard.length; i++) {
     for (var j = 0; j < gBoard[i].length; j++) {
       if (gBoard[i][j].isMine)
-        return // add ((i === locationI && j === locationJ))
+        continue // add ((i === locationI && j === locationJ))
       else {
         emptyPos.push({ i, j })
       }
     }
   }
-  console.log('emptyPos', emptyPos)
   var randIdx = getRandomInt(0, emptyPos.length)
-  console.log('randIdx', randIdx)
-  console.log('emptyPos[randIdx]', emptyPos[randIdx])
   var randPos = emptyPos[randIdx]
+
   return gBoard[randPos.i][randPos.j]
 
   // need to get curr i and j to not put it in
@@ -100,25 +98,15 @@ function getEmptyPos(locationI, locationJ) {
 
 // placeMines                                           // update first clicking
 function placeMines(locationI, locationJ) {
-  // const amount = gLevel.MINES
+  const amount = gLevel.MINES
   gMines = []
 
-  // for (var m = 0; m < amount; m++) {
-  //   var currCell = getEmptyPos(locationI, locationJ)
+  for (var m = 0; m < amount; m++) {
+    var currCell = getEmptyPos(locationI, locationJ)
 
-  //   console.log('currCell', currCell)
-
-  //   currCell.isMine = true
-  //   gMines.push(currCell)
-  // }
-
-  gBoard[1][1].isMine = true
-
-  gMines.push(gBoard[1][1])
-
-  gBoard[3][3].isMine = true
-
-  gMines.push(gBoard[3][3])
+    currCell.isMine = true
+    gMines.push(currCell)
+  }
 }
 
 // setMinesNegsCount
