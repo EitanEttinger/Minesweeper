@@ -16,16 +16,26 @@
       href="css/style.css"
     />
   </head>
-  <body onload="onInit()">
+  <body onload="onInit(gLevel.SIZE, gLevel.MINES)">
     <h1>Minesweeper</h1>
+    <div class="gameZone">
+    <div class="levelZone">
+      <button class="level Beginner" onclick="onInit(4, 2)">Beginner</button>
+      <button class="level Medium" onclick="onInit(8, 14)">Medium</button>
+      <button class="level Expert" onclick="onInit(12, 32)">Expert</button>
+    </div>
+    <div class="restartZone">
+      <button class="smiley" onclick="onInit(gLevel.SIZE, gLevel.MINES)">&#128515</button>
+    </div>
 
     <table>
       <tbody class="board"></tbody>
     </table>
 
+  </div>
+
     <div class="footer">Eitan Ettinger</div>
 
-    <script src="js/util.js"></script>
     <script src="js/app.js"></script>
   </body>
 </html>

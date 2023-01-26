@@ -23,9 +23,27 @@ const FUN_SMILEY = `&#128515`
 const VICTORY_SMILEY = `&#128526`
 const LOSS_SMILEY = `&#128561`
 
+// gGame = {
+//   isOn: true,
+//   moveCount: 0,
+//   shownCount: 0,
+//   markedCount: 0,
+//   minesMarkedCount: 0,
+//   secsPassed: 0,
+// }
+
 // onInit
-function onInit() {
+function onInit(size, mines) {
+  gLevel.SIZE = size
+  gLevel.MINES = mines
   // Data Reset
+  gGame.isOn = true
+  gGame.moveCount = 0
+  gGame.shownCount = 0
+  gGame.markedCount = 0
+  gGame.minesMarkedCount = 0
+  gGame.secsPassed = 0
+  renderSmiley(FUN_SMILEY)
 
   // Run
   buildBoard()
@@ -152,6 +170,11 @@ function renderCell(i, j) {
   elCell.innerHTML = value
 }
 
+function renderSmiley(value) {
+  var elSmiley = document.querySelector(`.smiley`)
+  elSmiley.innerHTML = value
+}
+
 // onCellClicked
 function onCellClicked(elCell, i, j) {
   var currCell = gBoard[i][j]
@@ -240,7 +263,7 @@ function checkGameOver(elCell, i, j) {
     gGame.minesMarkedCount + gGame.shownCount === gLevel.SIZE ** 2 &&
     gGame.markedCount === gGame.minesMarkedCount
   ) {
-    console.log(`Victory`)
+    renderSmiley(VICTORY_SMILEY)
     gGame.isOn = false
   } else if (elCell.classList.contains(`exploded`)) {
     for (var m = 0; m < gMines.length; m++) {
@@ -253,7 +276,7 @@ function checkGameOver(elCell, i, j) {
       currCell.isMarked = false
       renderCell(i, j)
     }
-    console.log(`Loss`)
+    renderSmiley(LOSS_SMILEY)
     gGame.isOn = false
   }
 }

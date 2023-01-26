@@ -4,12 +4,49 @@
 }
 
 h1 {
-  font-size: 44px;
+  font-size: 55px;
   font-weight: 800;
+}
+
+.gameZone {
+  width: 700px;
+  min-height: 550px;
+  background-color: gray;
+  border: 10px solid black;
+  margin: 10px auto;
+}
+
+.levelZone,
+.restartZone {
+  width: 500px;
+  height: 80px;
+  margin: 10px auto;
+}
+
+.level {
+  width: 150px;
+  height: 60px;
+  font-size: 30px;
+  font-weight: 400;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  border-radius: 60px;
+  cursor: pointer;
+  background-color: royalblue;
+}
+
+.smiley {
+  width: 80px;
+  height: 80px;
+  font-size: 45px;
+  font-weight: 600;
+  border-radius: 30%;
+  cursor: pointer;
+  background-color: royalblue;
 }
 
 table {
   margin: 0 auto;
+  padding: 10px;
 }
 
 .cell {
