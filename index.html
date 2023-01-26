@@ -21,14 +21,15 @@
     <div class="gameZone">
 
       <div class="levelZone">
-        <button class="level Beginner" onclick="onInit(4, 2)">Beginner</button>
-        <button class="level Medium" onclick="onInit(8, 14)">Medium</button>
-        <button class="level Expert" onclick="onInit(12, 32)">Expert</button>
+        <button class="levelBtn Beginner" onclick="onInit(4, 2)">Beginner</button>
+        <button class="levelBtn Medium" onclick="onInit(8, 14)">Medium</button>
+        <button class="levelBtn Expert" onclick="onInit(12, 32)">Expert</button>
       </div>
 
       <div class="restartZone">
-        <button class="smiley" onclick="onInit(gLevel.SIZE, gLevel.MINES)">&#128515</button>
         <div class="lives">&#128153 &#128153 &#128153</div>
+        <button class="smileyBtn" onclick="onInit(gLevel.SIZE, gLevel.MINES)">&#128515</button>
+        <button class="undoBtn" onclick="showUndo()">undo</button>
       </div>
 
       <table>

@@ -16,7 +16,7 @@ var gBoard
 var gMines
 var gCancelMark = false
 
-const EMPTY = `&#128519`
+const EMPTY = ``
 const MINE = `&#128163`
 const FLAG = `&#128681`
 
@@ -163,10 +163,11 @@ function renderCell(i, j) {
   }
 
   elCell.innerHTML = value
+  elCell.classList.add(`shown`)
 }
 
 function renderSmiley(value) {
-  var elSmiley = document.querySelector(`.smiley`)
+  var elSmiley = document.querySelector(`.smileyBtn`)
   elSmiley.innerHTML = value
 }
 
@@ -294,6 +295,10 @@ function checkGameOver(elCell, i, j) {
     setTimeout(renderSmiley, 1000, LOSS_SMILEY)
     gGame.isOn = false
   }
+}
+
+function showUndo() {
+  console.log(`i do it with bugs and than i cut it`)
 }
 
 function getRandomInt(min, max) {
