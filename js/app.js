@@ -9,6 +9,7 @@ var gGame = {
   markedCount: 0,
   minesMarkedCount: 0,
   secsPassed: 0,
+  lifeCount: 3,
 }
 var gLevel = { SIZE: 4, MINES: 2 }
 var gBoard
@@ -22,15 +23,7 @@ const FLAG = `&#128681`
 const FUN_SMILEY = `&#128515`
 const VICTORY_SMILEY = `&#128526`
 const LOSS_SMILEY = `&#128561`
-
-// gGame = {
-//   isOn: true,
-//   moveCount: 0,
-//   shownCount: 0,
-//   markedCount: 0,
-//   minesMarkedCount: 0,
-//   secsPassed: 0,
-// }
+const LIVE = `&#128153`
 
 // onInit
 function onInit(size, mines) {
@@ -43,6 +36,7 @@ function onInit(size, mines) {
   gGame.markedCount = 0
   gGame.minesMarkedCount = 0
   gGame.secsPassed = 0
+  gGame.lifeCount = 3
   renderSmiley(FUN_SMILEY)
 
   // Run

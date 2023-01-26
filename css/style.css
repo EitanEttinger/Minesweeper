@@ -16,10 +16,15 @@ h1 {
   margin: 10px auto;
 }
 
-.levelZone,
+.levelZone {
+  width: 500px;
+  height: 70px;
+  margin: 10px auto;
+}
+
 .restartZone {
   width: 500px;
-  height: 80px;
+  height: 120px;
   margin: 10px auto;
 }
 
@@ -44,6 +49,10 @@ h1 {
   background-color: royalblue;
 }
 
+.lives {
+  font-size: 40px;
+}
+
 table {
   margin: 0 auto;
   padding: 10px;
@@ -55,7 +64,7 @@ table {
   font-size: 30px;
   font-weight: 600;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: blue;
+  background-color: royalblue;
   border: 2px solid black;
   border-radius: 20%;
   cursor: pointer;
