@@ -154,9 +154,12 @@ function renderCell(i, j) {
   if (currCell.isMarked) {
     value = FLAG
   } else {
-    if (gCancelMark === true) {
+    if (gCancelMark) {
       value = ``
       gCancelMark = false
+      elCell.innerHTML = value
+      elCell.classList.remove(`shown`)
+      return
     } else if (currCell.isMine) value = MINE
     else if (currCell.minesAroundCount === 0) value = EMPTY
     else if (currCell.minesAroundCount > 0) value = currCell.minesAroundCount
