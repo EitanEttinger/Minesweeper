@@ -13,7 +13,7 @@ var gGame = {
 }
 var gLevel = { SIZE: 4, MINES: 2 }
 var gBoard
-var gMines
+var gMines = []
 var gCancelMark = false
 
 const EMPTY = ``
@@ -43,6 +43,9 @@ function onInit(size, mines) {
   // Run
   buildBoard()
   renderBoard()
+
+  var elMinescounter = document.querySelector(`.mineCounter span`)
+  elMinescounter.innerHTML = gLevel.MINES - gGame.markedCount
 }
 
 // buildBoard
@@ -167,13 +170,18 @@ function renderCell(i, j) {
 
   elCell.innerHTML = value
   elCell.classList.add(`shown`)
+
+  var elMinescounter = document.querySelector(`.mineCounter span`)
+  elMinescounter.innerText = gLevel.MINES - gGame.markedCount
 }
 
+// renderSmiley
 function renderSmiley(value) {
   var elSmiley = document.querySelector(`.smileyBtn`)
   elSmiley.innerHTML = value
 }
 
+// renderLive
 function renderLive(lives) {
   var elLives = document.querySelector(`.lives`)
   var strLives = ''
@@ -229,6 +237,8 @@ function onCellMarked(e, elCell, i, j) {
   var currCell = gBoard[i][j]
 
   if (!gGame.isOn || currCell.isShown) return
+
+  if (gMines.length === 0) gGame.moveCount--
 
   gGame.moveCount++
 

@@ -73,7 +73,9 @@ h1 {
 
 table {
   margin: 0 auto;
-  padding: 10px;
+  /* padding: 10px; */
+  border: 4px solid black;
+  border-radius: 10px;
 }
 
 .cell {
@@ -86,6 +88,19 @@ table {
   border: 2px solid black;
   border-radius: 20%;
   cursor: pointer;
+}
+
+.mineCounter {
+  width: 200px;
+  height: 50px;
+  margin: 10px auto;
+  font-size: 30px;
+  font-weight: 400;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  cursor: pointer;
+  background-color: royalblue;
+  border: 3px solid black;
+  border-radius: 60px;
 }
 
 .footer {
