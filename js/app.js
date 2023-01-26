@@ -9,7 +9,7 @@ var gGame = {
   markedCount: 0,
   minesMarkedCount: 0,
   secsPassed: 0,
-  lifeCount: 3,
+  liveCount: 3,
 }
 var gLevel = { SIZE: 4, MINES: 2 }
 var gBoard
@@ -36,8 +36,9 @@ function onInit(size, mines) {
   gGame.markedCount = 0
   gGame.minesMarkedCount = 0
   gGame.secsPassed = 0
-  gGame.lifeCount = 3
+  gGame.liveCount = 3
   renderSmiley(FUN_SMILEY)
+  renderLive(3)
 
   // Run
   buildBoard()
@@ -169,6 +170,17 @@ function renderSmiley(value) {
   elSmiley.innerHTML = value
 }
 
+function renderLive(lives) {
+  var elLives = document.querySelector(`.lives`)
+  var strLives = ''
+
+  for (var i = 0; i < lives; i++) {
+    strLives += LIVE
+  }
+
+  elLives.innerHTML = strLives
+}
+
 // onCellClicked
 function onCellClicked(elCell, i, j) {
   var currCell = gBoard[i][j]
@@ -176,11 +188,22 @@ function onCellClicked(elCell, i, j) {
   if (!gGame.isOn || currCell.isShown || currCell.isMarked) return
 
   gGame.moveCount++
-  gGame.shownCount++
 
   if (gGame.moveCount === 1) {
     placeMines(i, j)
     setMinesNegsCount()
+  }
+
+  if (currCell.isMine) {
+    gGame.liveCount--
+
+    renderSmiley(LOSS_SMILEY)
+    setTimeout(renderSmiley, 1000, FUN_SMILEY)
+
+    renderLive(gGame.liveCount)
+
+    if (gGame.liveCount > 0) return
+    elCell.classList.add(`exploded`)
   }
 
   currCell.isShown = true
@@ -188,9 +211,7 @@ function onCellClicked(elCell, i, j) {
   if (currCell.minesAroundCount === 0 && !currCell.isMine)
     expandShown(elCell, i, j)
 
-  if (currCell.isMine) {
-    elCell.classList.add(`exploded`)
-  }
+  gGame.shownCount++
 
   renderCell(i, j)
 
@@ -270,7 +291,7 @@ function checkGameOver(elCell, i, j) {
       currCell.isMarked = false
       renderCell(i, j)
     }
-    renderSmiley(LOSS_SMILEY)
+    setTimeout(renderSmiley, 1000, LOSS_SMILEY)
     gGame.isOn = false
   }
 }
