@@ -15,6 +15,7 @@ var gLevel = { SIZE: 4, MINES: 2 }
 var gBoard
 var gMines = []
 var gCancelMark = false
+var gExpandCells = []
 
 const EMPTY = ``
 const MINE = `&#128163`
@@ -169,10 +170,17 @@ function renderCell(i, j) {
   }
 
   elCell.innerHTML = value
-  elCell.classList.add(`shown`)
+  console.log('value', value)
 
   var elMinescounter = document.querySelector(`.mineCounter span`)
   elMinescounter.innerText = gLevel.MINES - gGame.markedCount
+
+  if (!gGame.isOn) {
+    elCell.classList.add(`loss`)
+    return
+  }
+
+  elCell.classList.add(`shown`)
 }
 
 // renderSmiley
@@ -216,18 +224,19 @@ function onCellClicked(elCell, i, j) {
 
     if (gGame.liveCount > 0) return
     elCell.classList.add(`exploded`)
+  } else {
+    if (currCell.minesAroundCount === 0) {
+      expandShown(i, j)
+      return
+    }
   }
 
   currCell.isShown = true
-
-  if (currCell.minesAroundCount === 0 && !currCell.isMine)
-    expandShown(elCell, i, j)
-
   gGame.shownCount++
 
   renderCell(i, j)
 
-  checkGameOver(elCell, i, j)
+  checkGameOver(i, j)
 }
 
 // onCellMarked
@@ -262,11 +271,17 @@ function onCellMarked(e, elCell, i, j) {
 
   renderCell(i, j)
 
-  checkGameOver(elCell, i, j)
+  checkGameOver(i, j)
 }
 
-// expandShown
-function expandShown(elCell, locationI, locationJ) {
+//expandShown checking
+function expandShown(locationI, locationJ) {
+  console.log('expandShown')
+  var currMainCell = gBoard[locationI][locationJ]
+  currMainCell.isShown = true
+  if (!checkInArrObj(locationI, locationJ))
+    gExpandCells.push({ locI: locationI, locJ: locationJ })
+
   for (var i = locationI - 1; i <= locationI + 1; i++) {
     if (i < 0 || i >= gBoard.length) continue
 
@@ -276,25 +291,43 @@ function expandShown(elCell, locationI, locationJ) {
 
       var currCell = gBoard[i][j]
 
-      if (currCell.isShown === false && currCell.isMarked === false) {
-        gGame.shownCount++
-        currCell.isShown = true
+      if (currCell.isShown || currCell.isMarked) continue
+
+      if (currCell.minesAroundCount === 0) {
+        if (!checkInArrObj(i, j)) {
+          expandShown(i, j)
+        }
+        continue
       }
+      gGame.shownCount++
+      currCell.isShown = true
 
       renderCell(i, j)
     }
   }
+  gGame.shownCount++
+
+  renderCell(locationI, locationJ)
+
+  checkGameOver(locationI, locationJ)
+}
+
+function checkInArrObj(i, j) {
+  for (var r = 0; r < gExpandCells.length; r++) {
+    if (gExpandCells[r].locI === i && gExpandCells[r].locJ === j) return true
+  }
 }
 
 // checkGameOver
-function checkGameOver(elCell, i, j) {
+function checkGameOver(i, j) {
   if (
     gGame.minesMarkedCount + gGame.shownCount === gLevel.SIZE ** 2 &&
     gGame.markedCount === gGame.minesMarkedCount
   ) {
     renderSmiley(VICTORY_SMILEY)
     gGame.isOn = false
-  } else if (elCell.classList.contains(`exploded`)) {
+  } else if (gGame.liveCount === 0) {
+    gGame.isOn = false
     for (var m = 0; m < gMines.length; m++) {
       var currCell = gMines[m]
       i = currCell.locationI
@@ -302,11 +335,9 @@ function checkGameOver(elCell, i, j) {
 
       currCell.isShown = true
 
-      currCell.isMarked = false
       renderCell(i, j)
     }
     setTimeout(renderSmiley, 1000, LOSS_SMILEY)
-    gGame.isOn = false
   }
 }
 
