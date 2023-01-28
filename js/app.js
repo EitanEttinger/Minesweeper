@@ -170,7 +170,7 @@ function renderCell(i, j) {
   }
 
   elCell.innerHTML = value
-  console.log('value', value)
+  // console.log('value', value)
 
   var elMinescounter = document.querySelector(`.mineCounter span`)
   elMinescounter.innerText = gLevel.MINES - gGame.markedCount
@@ -276,7 +276,7 @@ function onCellMarked(e, elCell, i, j) {
 
 //expandShown checking
 function expandShown(locationI, locationJ) {
-  console.log('expandShown')
+  // console.log('expandShown')
   var currMainCell = gBoard[locationI][locationJ]
   currMainCell.isShown = true
   if (!checkInArrObj(locationI, locationJ))
