@@ -28,6 +28,7 @@ const FUN_SMILEY = `&#128515`
 const VICTORY_SMILEY = `&#128526`
 const LOSS_SMILEY = `&#128561`
 const LIVE = `&#128153`
+const GHOST = `&#128123`
 
 // onInit
 function onInit(size, mines) {
@@ -201,6 +202,8 @@ function renderLive(lives) {
     strLives += LIVE
   }
 
+  if (gGame.liveCount === 0) strLives = GHOST + GHOST + GHOST
+
   elLives.innerHTML = strLives
 }
 
@@ -345,7 +348,7 @@ function checkGameOver(i, j) {
 
       renderCell(i, j)
     }
-    setTimeout(renderSmiley, 1000, LOSS_SMILEY)
+    setTimeout(renderSmiley, 1010, LOSS_SMILEY)
   }
 }
 
