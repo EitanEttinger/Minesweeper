@@ -16,6 +16,9 @@ var gBoard
 var gMines = []
 var gCancelMark = false
 var gExpandCells = []
+var boomSound = new Audio(`sound/boom.wav`)
+var lossSound = new Audio(`sound/loss.mp3`)
+var winSound = new Audio(`sound/win.wav`)
 
 const EMPTY = ``
 const MINE = `&#128163`
@@ -222,7 +225,10 @@ function onCellClicked(elCell, i, j) {
 
     renderLive(gGame.liveCount)
 
-    if (gGame.liveCount > 0) return
+    if (gGame.liveCount > 0) {
+      boomSound.play()
+      return
+    }
     elCell.classList.add(`exploded`)
   } else {
     if (currCell.minesAroundCount === 0) {
@@ -326,8 +332,10 @@ function checkGameOver(i, j) {
   ) {
     renderSmiley(VICTORY_SMILEY)
     gGame.isOn = false
+    winSound.play()
   } else if (gGame.liveCount === 0) {
     gGame.isOn = false
+    lossSound.play()
     for (var m = 0; m < gMines.length; m++) {
       var currCell = gMines[m]
       i = currCell.locationI
